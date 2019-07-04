@@ -14,12 +14,13 @@ var protectedMailLink = '<a href=\"javascript:mt(\'I\\\'m%20looking%20for%20the%
 bender.test( {
 	'test created protected mail link': function() {
 		var bot = this.editorBot;
+
 		bot.setHtmlWithSelection( '<a href="#">[AJD]</a>' );
 		bot.dialog( 'link', function( dialog ) {
 			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
-			addressField = dialog.getContentElement( 'info', 'emailAddress' ),
-			subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
-			bodyField = dialog.getContentElement( 'info', 'emailBody' );
+				addressField = dialog.getContentElement( 'info', 'emailAddress' ),
+				subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
+				bodyField = dialog.getContentElement( 'info', 'emailBody' );
 
 			linkTypeField.setValue( 'email' );
 			addressField.setValue( 'job@cksource.com' );
@@ -35,22 +36,21 @@ bender.test( {
 
 	'test read from protected mail link': function() {
 		var bot = this.editorBot;
+
 		bot.setHtmlWithSelection( '[' + protectedMailLink + ']' );
 		bot.dialog( 'link', function( dialog ) {
 			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
-			addressField = dialog.getContentElement( 'info', 'emailAddress' ),
-			subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
-			bodyField = dialog.getContentElement( 'info', 'emailBody' );
+				addressField = dialog.getContentElement( 'info', 'emailAddress' ),
+				subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
+				bodyField = dialog.getContentElement( 'info', 'emailBody' );
+
+			dialog.fire( 'ok' );
+			dialog.hide();
 
 			assert.areEqual( 'email', linkTypeField.getValue() );
 			assert.areEqual( 'job@cksource.com', addressField.getValue() );
 			assert.areEqual( 'Job Request', subjectField.getValue() );
 			assert.areEqual( 'I\'m looking for the AJD position.', bodyField.getValue() );
-
-			dialog.fire( 'ok' );
-			dialog.hide();
 		} );
 	}
 } );
-
-//]]>
